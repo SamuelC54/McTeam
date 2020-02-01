@@ -1,0 +1,12 @@
+{
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#02b8ae",
+        "titleBar.inactiveBackground": "#02b8ae99",
+        "titleBar.activeForeground": "#15202b",
+        "titleBar.inactiveForeground": "#15202b99"
+    },
+    "peacock.color": "#02b8ae",
+    "cSpell.words": [
+        "Urbain"
+    ]
+}
