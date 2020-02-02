@@ -1,24 +1,39 @@
 import React from 'react';
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
-import Canada311 from './components/Canada311';
-import { Map } from './components/Map';
+import styled from 'styled-components';
 
 function App() {
   return (
     <div className="App">
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <Canada311 />
-          </Route>
-          <Route exact path="/map">
-            <Map />
-          </Route>
-        </Switch>
-      </Router>
+      <Camera>
+        Caméra here
+      </Camera>
+      <div>
+        Fan level control
+      </div>
+      <div>
+        Cam Meat Tofu
+      </div>
+      <div>
+        90%
+      </div>
+      <div>
+      35 degrees C
+    </div>
+    <div>
+      <input placeholder="Humidity"/>  
+    </div>
+    <div>
+      <input placeholder="Temperature"/>
+    </div>
+
     </div>
   );
 }
 
 export default App;
+
+
+const Camera = styled.div`
+  background-color: green;
+`
