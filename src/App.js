@@ -6,6 +6,7 @@ import './App.css';
 import ImageTemperature from './components/assets/temperature.png';
 import ImageHumidity from './components/assets/humidity.svg';
 import ImageLight from './components/assets/light.png';
+import Video from './components/Video';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyA4CuGhBhsOE2UkF2wpUQgqepxO9B6SWsQ',
@@ -18,9 +19,6 @@ firebase.initializeApp({
   measurementId: 'G-L4QNHNNDML'
 });
 const firestore = firebase.firestore();
-
-import './App.css';
-import Video from './components/Video';
 
 function App() {
   const [humidity, setHumidity] = useState([]);
