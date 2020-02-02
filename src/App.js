@@ -43,7 +43,32 @@ function App() {
   }
 
  
+  
+  // humidity
+  function handleHumidChange(e,value){
+    setTargetHumid(value);
+    setFireStoreHumid(value);
+  }
 
+  const [targetHumid, setTargetHumid] = useState(0);
+  useEffect(() => {
+    const targetHumid = firestore
+    .collection("config")
+    .doc("sensors")
+    .get().then((doc)=>{
+      setTargetHumid(doc.data().humiditySensor);
+    });
+  }, []);
+
+  const setFireStoreHumid = (value) => {
+    firestore
+    .collection("config")
+    .doc("sensors")
+    .update({humiditySensor: value});
+  }
+
+
+  // temperature 
   function handleTempChange(e,value){
     setTargetTemp(value);
     setFireStoreTemp(value);
@@ -85,6 +110,7 @@ function App() {
   
   return (
     <>
+    <BigParent>
     <Dialog onClose={closeDialog} open={openDialog && openDialog === 'temperature'} fullWidth>
       <Chart label="Temperature level over time" color="#f8322f" data={temperature} lowerLimit={-50} upperLimit={50}/>
     </Dialog>
@@ -100,16 +126,35 @@ function App() {
         onClick={handleLightToggle}
         src={ImageLight}
       />
+      <OneLineContainer>
       <OneLine>
         <OneLineChild>
           <Picture src={ImageHumidity} />
         </OneLineChild>
-        <OneLineChild onClick={()=>setOpenDialog('humidity')}>{humidity && humidity[0]}%</OneLineChild>
         <OneLineChild>
-            <div class="slidecontainer">
-                <input type="range" defaultValue={0} />
-            </div>
+          <OneLineGrandChild>Actual</OneLineGrandChild>
+          <OneLineGrandChild onClick={()=>setOpenDialog('humidity')}>
+          <PictureInline src={ArrowDown} />{humidity && humidity[0]}%</OneLineGrandChild>
+          <OneLineGrandChild>Target</OneLineGrandChild>
+          <OneLineGrandChild>{targetHumid}%</OneLineGrandChild>
         </OneLineChild>
+
+
+        <OneLineChild >
+          <Typography id="discrete-slider" gutterBottom>
+          Humidity
+          </Typography>
+          <Slider
+            defaultValue={targetHumid}
+            aria-labelledby="discrete-slider"
+            valueLabelDisplay="auto"
+            step={1}
+            min={-4}
+            max={25}
+            onChangeCommitted={handleHumidChange}
+          />  
+        
+          </OneLineChild>
       </OneLine>
       <OneLine>
         <OneLineChild>
@@ -140,8 +185,9 @@ function App() {
         
           </OneLineChild>
       </OneLine>
+      </OneLineContainer>
     </div>
-
+    </BigParent>
     </>
   );
 }
@@ -159,7 +205,7 @@ const Input = styled.input`
 `;
 
 const Picture = styled.img`
-  width: 20px;
+  width: 30px;
 `;
 
 const PictureInline = styled(Picture)`
@@ -173,7 +219,6 @@ const OneLine = styled.div`
   background-color: grey;
   display: flex;
   justify-content: space-around;
-  width: 50vw;
 `;
 
 const OneLineChild = styled.div`
@@ -182,6 +227,8 @@ const OneLineChild = styled.div`
   margin-right: 10px;
   align-items: center;
   justify-content: center;
+  flex: 1;
+  width: 100%;
 `;
 
 const OneLineGrandChild = styled.div`
@@ -203,4 +250,19 @@ const LightBulb = styled.img`
   left: 10px;
   background-color: ${props => (props.light ? 'yellow' : 'grey')};
   border-radius: 9999px;
+`;
+
+const BigParent = styled.div`
+  height: 100vh;
+`;
+
+
+const OneLineContainer = styled.div`
+height: 50vh;
+
+display:flex;
+flex-direction: column;
+justify-content: space-around;
+align-items: stretch;
+align-content: stretch;
 `;
