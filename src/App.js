@@ -39,7 +39,6 @@ function App() {
   function handleLightToggle(){
     setLight(!light);
     console.log(light);
-
   }
 
  
@@ -134,7 +133,7 @@ function App() {
         <OneLineChild>
           <OneLineGrandChild>Actual</OneLineGrandChild>
           <OneLineGrandChild onClick={()=>setOpenDialog('humidity')}>
-          <PictureInline src={ArrowDown} />{humidity && humidity[0]}%</OneLineGrandChild>
+          <PictureInline src={ArrowDown} target={targetHumid} value={humidity[0]} />{humidity && humidity[0]}%</OneLineGrandChild>
           <OneLineGrandChild>Target</OneLineGrandChild>
           <OneLineGrandChild>{targetHumid}%</OneLineGrandChild>
         </OneLineChild>
@@ -150,7 +149,7 @@ function App() {
             valueLabelDisplay="auto"
             step={1}
             min={-4}
-            max={25}
+            max={100}
             onChangeCommitted={handleHumidChange}
           />  
         
@@ -209,8 +208,10 @@ const Picture = styled.img`
 `;
 
 const PictureInline = styled(Picture)`
-  display: inline-block;
-  transform: rotate(180deg);
+  transform: rotate(${props => (props.target > props.value? 0 : 180)}deg);
+  width: 25px;
+  display:${props => (Math.abs(props.target - props.value <= 5)? 'none': 'inline-block')};
+  
 `;
 
 const Spacer = styled.div`
