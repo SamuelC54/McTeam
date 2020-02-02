@@ -6,11 +6,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 
+import Dialog from '@material-ui/core/Dialog';
 import './App.css';
 import ImageTemperature from './components/assets/temperature.png';
 import ImageHumidity from './components/assets/humidity.svg';
 import ImageLight from './components/assets/light.png';
 import Video from './components/Video';
+import Chart from './components/Chart';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyA4CuGhBhsOE2UkF2wpUQgqepxO9B6SWsQ',
@@ -44,7 +46,7 @@ function App() {
     console.log(e);
   }
 
- 
+  const [openDialog, setOpenDialog] = useState(null);
   useEffect(() => {
     firestore
       .collection('data')
@@ -56,7 +58,17 @@ function App() {
       });
   }, []);
 
+  const closeDialog = () => {
+    setOpenDialog(null);
+  } 
   return (
+    <>
+    <Dialog onClose={closeDialog} open={openDialog && openDialog === 'temperature'} fullWidth>
+      <Chart label="Temperature level over time" color="#f8322f" data={temperature} lowerLimit={-50} upperLimit={50}/>
+    </Dialog>
+    <Dialog onClose={closeDialog} open={openDialog && openDialog === 'humidity'} fullWidth>
+      <Chart label="Humidity level over time" color="#00Ff00" data={humidity} lowerLimit={0} upperLimit={100}/>
+    </Dialog>
     <div className="App">
       <Camera>
        
@@ -70,7 +82,7 @@ function App() {
         <OneLineChild>
           <Picture src={ImageHumidity} />
         </OneLineChild>
-        <OneLineChild>{humidity && humidity[0]}%</OneLineChild>
+        <OneLineChild onClick={()=>setOpenDialog('humidity')}>{humidity && humidity[0]}%</OneLineChild>
         <OneLineChild>
             <div class="slidecontainer">
                 <input type="range" defaultValue={0} />
@@ -78,10 +90,10 @@ function App() {
         </OneLineChild>
       </OneLine>
       <OneLine>
-        <OneLineChild>
+        <OneLineChild >
           <Picture src={ImageTemperature} />
         </OneLineChild>
-        <OneLineChild>{temperature && temperature[0]}°C</OneLineChild>
+        <OneLineChild onClick={()=>setOpenDialog('temperature')}>{temperature && temperature[0]}°C</OneLineChild>
         <OneLineChild >
           <Typography id="discrete-slider" gutterBottom>
           Temperature
@@ -97,9 +109,10 @@ function App() {
           
           />  
         
-        </OneLineChild>
+          </OneLineChild>
       </OneLine>
     </div>
+    </>
   );
 }
 

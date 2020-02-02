@@ -14,13 +14,31 @@ firebase.initializeApp({
   appId: "1:935234732757:web:44241121f0203b798d185c",
   measurementId: "G-L4QNHNNDML"
   });
+  
+let tempData = [];
+let humidityData = [];
   const firestore = firebase.firestore();
-const tempData = [];
-const humidityData = [];
+  const dataCollection = firestore.collection('data').doc('sensors');
+  let getDoc = dataCollection.get()
+  .then(doc => {
+    if (!doc.exists) {
+      console.log('No such document!');
+    } else {
+      console.log('Document data:', doc.data());
+      let oldData = doc.data()
+      tempData = oldData.tempSensor;
+      humidityData = oldData.humiSensor;
+    }
+  })
+  .catch(err => {
+    console.log('Error getting document', err);
+  });
 // Read the port data
+
 port.on("open", () => {
   console.log('serial port open');
 });
+
 parser.on('data', data =>{
     const humidityValue = parseFloat(data.slice(0,5));
     const temperatureValue = parseFloat(data.slice(6,11));
@@ -33,9 +51,10 @@ parser.on('data', data =>{
       .collection("data")
       .doc("sensors")
       .update({tempSensor: tempData});
-      firestore
+    firestore
       .collection("data")
       .doc("sensors")
       .update({humiSensor: humidityData})
       ;
 });
+
