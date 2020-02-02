@@ -119,7 +119,7 @@ function App() {
     </Dialog>
     <div className="App">
       <Camera>
-       
+        <Video/>
       </Camera>
       <LightBulb
         light={light}
@@ -205,7 +205,7 @@ const Input = styled.input`
 `;
 
 const Picture = styled.img`
-  width: 30px;
+  width: 40px;
 `;
 
 const PictureInline = styled(Picture)`
@@ -213,12 +213,15 @@ const PictureInline = styled(Picture)`
   transform: rotate(180deg);
 `;
 
-
+const Spacer = styled.div`
+boder: 1 solid grey;
+`;
 
 const OneLine = styled.div`
-  background-color: grey;
   display: flex;
   justify-content: space-around;
+  height: 100%;
+  border: 1px solid #e2e8f0;
 `;
 
 const OneLineChild = styled.div`
@@ -248,7 +251,7 @@ const LightBulb = styled.img`
   index: 99999;
   top: 10px;
   left: 10px;
-  background-color: ${props => (props.light ? 'yellow' : 'grey')};
+  background-color: ${props => (props.light ? 'yellow' : '#a0aec0')};
   border-radius: 9999px;
 `;
 
