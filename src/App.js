@@ -44,9 +44,20 @@ function App() {
 
  
 
-  function handleTempChange(e){
-    console.log("temp changed");
+  function handleTempChange(e,value){
+    setTargetTemp(value);
+    setFireStoreTemp(value);
   }
+
+  const [targetTemp, setTargetTemp] = useState(0);
+  useEffect(() => {
+    const tempTarget = firestore
+    .collection("config")
+    .doc("sensors")
+    .get().then((doc)=>{
+      setTargetTemp(doc.data().tempSensor);
+    });
+  }, []);
 
   const [openDialog, setOpenDialog] = useState(null);
   useEffect(() => {
@@ -63,13 +74,15 @@ function App() {
   const closeDialog = () => {
     setOpenDialog(null);
   } 
-  const setFireStore = () => {
+  const setFireStoreTemp = (value) => {
     firestore
     .collection("config")
     .doc("sensors")
-    .update({tempSensor: 0});
- 
+    .update({tempSensor: value});
   }
+
+
+  
   return (
     <>
     <Dialog onClose={closeDialog} open={openDialog && openDialog === 'temperature'} fullWidth>
@@ -107,7 +120,7 @@ function App() {
           <OneLineGrandChild onClick={()=>setOpenDialog('temperature')}>
           <PictureInline src={ArrowDown} />{temperature && temperature[0]}°C</OneLineGrandChild>
           <OneLineGrandChild>Target</OneLineGrandChild>
-          <OneLineGrandChild>99°C</OneLineGrandChild>
+          <OneLineGrandChild>{targetTemp}°C</OneLineGrandChild>
         </OneLineChild>
 
 
@@ -116,7 +129,7 @@ function App() {
           Temperature
           </Typography>
           <Slider
-            defaultValue={3}
+            defaultValue={targetTemp}
             aria-labelledby="discrete-slider"
             valueLabelDisplay="auto"
             step={1}
@@ -128,7 +141,7 @@ function App() {
           </OneLineChild>
       </OneLine>
     </div>
-    <button onClick={setFireStore}></button>
+
     </>
   );
 }
