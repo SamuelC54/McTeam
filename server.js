@@ -18,9 +18,11 @@ firebase.initializeApp({
 const tempData = [];
 const humidityData = [];
 // Read the port data
+
 port.on("open", () => {
   console.log('serial port open');
 });
+
 parser.on('data', data =>{
     const humidityValue = parseFloat(data.slice(0,5));
     const temperatureValue = parseFloat(data.slice(6,11));
@@ -33,9 +35,10 @@ parser.on('data', data =>{
       .collection("data")
       .doc("sensors")
       .update({tempSensor: tempData});
-      firestore
+    firestore
       .collection("data")
       .doc("sensors")
       .update({humiSensor: humidityData})
       ;
 });
+

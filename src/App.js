@@ -1,12 +1,13 @@
 import firebase from 'firebase';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
+import Dialog from '@material-ui/core/Dialog';
 import './App.css';
 import ImageTemperature from './components/assets/temperature.png';
 import ImageHumidity from './components/assets/humidity.svg';
 import ImageLight from './components/assets/light.png';
 import Video from './components/Video';
+import Chart from './components/Chart';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyA4CuGhBhsOE2UkF2wpUQgqepxO9B6SWsQ',
@@ -24,7 +25,7 @@ function App() {
   const [humidity, setHumidity] = useState([]);
   const [temperature, setTemperature] = useState([]);
   const [light, setLight] = useState(false);
-
+  const [openDialog, setOpenDialog] = useState(null);
   useEffect(() => {
     firestore
       .collection('data')
@@ -37,7 +38,17 @@ function App() {
       });
   }, []);
 
+  const closeDialog = () => {
+    setOpenDialog(null);
+  } 
   return (
+    <>
+    <Dialog onClose={closeDialog} open={openDialog && openDialog === 'temperature'}>
+      <Chart label="Temperature level over time" color="#f8322f" data={temperature} />
+    </Dialog>
+    <Dialog onClose={closeDialog} open={openDialog && openDialog === 'humidity'}>
+      <Chart label="Humidity level over time" color="#00Ff00" data={humidity} />
+    </Dialog>
     <div className="App">
       <Camera>
         <Video />
@@ -50,29 +61,26 @@ function App() {
         }}
         src={ImageLight}
       />
-
-      <div>
-        <input placeholder="Humidity" />
-      </div>
       <OneLine>
         <OneLineChild>
           <Picture src={ImageHumidity} />
         </OneLineChild>
-        <OneLineChild>{humidity && humidity[0]}%</OneLineChild>
+        <OneLineChild onClick={()=>setOpenDialog('humidity')}>{humidity && humidity[0]}%</OneLineChild>
         <OneLineChild>
           <Input placeholder="Humidity" />
         </OneLineChild>
       </OneLine>
       <OneLine>
-        <OneLineChild>
+        <OneLineChild >
           <Picture src={ImageTemperature} />
         </OneLineChild>
-        <OneLineChild>{temperature && temperature[0]}°C</OneLineChild>
+        <OneLineChild onClick={()=>setOpenDialog('temperature')}>{temperature && temperature[0]}°C</OneLineChild>
         <OneLineChild>
           <Input placeholder="Temperature" />
         </OneLineChild>
       </OneLine>
     </div>
+    </>
   );
 }
 
