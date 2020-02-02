@@ -12,6 +12,8 @@ import ImageTemperature from './components/assets/temperature.png';
 import ImageHumidity from './components/assets/humidity.svg';
 import ImageLight from './components/assets/light.png';
 import ArrowDown from './components/assets/down.gif';
+import ImageLoading from './components/assets/loading.gif';
+
 
 import Video from './components/Video';
 import Chart from './components/Chart';
@@ -203,7 +205,7 @@ function App() {
 export default App;
 
 const Camera = styled.div`
-  background-color: green;
+  background-color: black;
   height: 50vh;
 `;
 
