@@ -148,7 +148,7 @@ function App() {
             aria-labelledby="discrete-slider"
             valueLabelDisplay="auto"
             step={1}
-            min={-4}
+            min={0}
             max={100}
             onChangeCommitted={handleHumidChange}
           />  
@@ -208,9 +208,11 @@ const Picture = styled.img`
 `;
 
 const PictureInline = styled(Picture)`
-  transform: rotate(${props => (props.target > props.value? 0 : 180)}deg);
-  width: 25px;
-  display:${props => (Math.abs(props.target - props.value <= 5)? 'none': 'inline-block')};
+  transform: translate(-30px, -10px) rotate(${props => (props.target > props.value? 180 : 0)}deg);
+  width: 35px;
+  position: absolute;
+  display:${props => {
+    return (Math.abs(props.target - props.value) <= 5? 'none': 'inline-block')}};
   
 `;
 
