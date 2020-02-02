@@ -43,8 +43,8 @@ const Chart = (props) => {
               {
                 ticks: {
                   beginAtZero: true,
-                  min: 0,
-                  max: 80
+                  min: props.lowerLimit,
+                  max: props.upperLimit
                 }
               }
             ]

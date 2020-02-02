@@ -44,10 +44,10 @@ function App() {
   return (
     <>
     <Dialog onClose={closeDialog} open={openDialog && openDialog === 'temperature'}>
-      <Chart label="Temperature level over time" color="#f8322f" data={temperature} />
+      <Chart label="Temperature level over time" color="#f8322f" data={temperature} lowerLimit={-50} upperLimit={50}/>
     </Dialog>
     <Dialog onClose={closeDialog} open={openDialog && openDialog === 'humidity'}>
-      <Chart label="Humidity level over time" color="#00Ff00" data={humidity} />
+      <Chart label="Humidity level over time" color="#00Ff00" data={humidity} lowerLimit={0} upperLimit={100}/>
     </Dialog>
     <div className="App">
       <Camera>
