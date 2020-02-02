@@ -43,10 +43,10 @@ function App() {
   } 
   return (
     <>
-    <Dialog onClose={closeDialog} open={openDialog && openDialog === 'temperature'}>
+    <Dialog onClose={closeDialog} open={openDialog && openDialog === 'temperature'} fullWidth>
       <Chart label="Temperature level over time" color="#f8322f" data={temperature} lowerLimit={-50} upperLimit={50}/>
     </Dialog>
-    <Dialog onClose={closeDialog} open={openDialog && openDialog === 'humidity'}>
+    <Dialog onClose={closeDialog} open={openDialog && openDialog === 'humidity'} fullWidth>
       <Chart label="Humidity level over time" color="#00Ff00" data={humidity} lowerLimit={0} upperLimit={100}/>
     </Dialog>
     <div className="App">

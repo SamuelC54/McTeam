@@ -28,14 +28,14 @@ const data = {
 const Chart = (props) => {
     data.datasets[0].label = props.label;
     const labels = [];
-    for (let i = 0; i < 300; i++) {
-        labels.push(i);
+    for (let i = 0; i < 100; i++) {
+        labels.push(i*2); // Each 2 seconds
     }
     data.datasets[0].borderColor = props.color;
     data.datasets[0].pointBorderColor = props.color;
     data.datasets[0].pointHoverBackgroundColor = props.color;
     data.labels = labels;
-    data.datasets[0].data = props.data;
+    data.datasets[0].data = props.data.slice(0,99); // get the 100 data points
     return (
         <Line data={data} options={{
           scales: {
