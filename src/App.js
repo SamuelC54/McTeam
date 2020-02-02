@@ -1,6 +1,10 @@
 import firebase from 'firebase';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import ReactSlider from 'react-slider'
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Slider from '@material-ui/core/Slider';
 
 import './App.css';
 import ImageTemperature from './components/assets/temperature.png';
@@ -20,18 +24,33 @@ firebase.initializeApp({
 });
 const firestore = firebase.firestore();
 
+
+
+
 function App() {
   const [humidity, setHumidity] = useState([]);
   const [temperature, setTemperature] = useState([]);
   const [light, setLight] = useState(false);
 
+  function handleLightToggle(){
+    setLight(!light);
+    console.log(light);
+
+  }
+
+ 
+
+  function handTempDragStop(e){
+    console.log(e);
+  }
+
+ 
   useEffect(() => {
     firestore
       .collection('data')
       .doc('sensors')
       .onSnapshot(doc => {
         const newData = doc.data();
-        console.log(newData);
         setTemperature(newData.tempSensor);
         setHumidity(newData.humiSensor);
       });
@@ -40,27 +59,22 @@ function App() {
   return (
     <div className="App">
       <Camera>
-        <Video />
+       
       </Camera>
       <LightBulb
         light={light}
-        onClick={() => {
-          setLight(!light);
-          console.log(light);
-        }}
+        onClick={handleLightToggle}
         src={ImageLight}
       />
-
-      <div>
-        <input placeholder="Humidity" />
-      </div>
       <OneLine>
         <OneLineChild>
           <Picture src={ImageHumidity} />
         </OneLineChild>
         <OneLineChild>{humidity && humidity[0]}%</OneLineChild>
         <OneLineChild>
-          <Input placeholder="Humidity" />
+            <div class="slidecontainer">
+                <input type="range" defaultValue={0} />
+            </div>
         </OneLineChild>
       </OneLine>
       <OneLine>
@@ -68,8 +82,21 @@ function App() {
           <Picture src={ImageTemperature} />
         </OneLineChild>
         <OneLineChild>{temperature && temperature[0]}°C</OneLineChild>
-        <OneLineChild>
-          <Input placeholder="Temperature" />
+        <OneLineChild >
+          <Typography id="discrete-slider" gutterBottom>
+          Temperature
+          </Typography>
+          <Slider
+            defaultValue={3}
+            aria-labelledby="discrete-slider"
+            valueLabelDisplay="auto"
+            step={1}
+            min={-4}
+            max={25}
+            onDragStop={()=>{console.log("stop")}}
+          
+          />  
+        
         </OneLineChild>
       </OneLine>
     </div>
@@ -106,8 +133,9 @@ const OneLineChild = styled.div`
 const LightBulb = styled.img`
   width: 50px;
   position: absolute;
+  index: 99999;
   top: 10px;
-  right: 10px;
-  background-color: ${props => (props.light ? 'yellow' : 'green')};
+  left: 10px;
+  background-color: ${props => (props.light ? 'yellow' : 'grey')};
   border-radius: 9999px;
 `;
