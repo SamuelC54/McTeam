@@ -162,7 +162,7 @@ function App() {
         <OneLineChild>
           <OneLineGrandChild>Actual</OneLineGrandChild>
           <OneLineGrandChild onClick={()=>setOpenDialog('temperature')}>
-          <PictureInline src={ArrowDown} />{temperature && temperature[0]}°C</OneLineGrandChild>
+          <PictureInline src={ArrowDown} src={ArrowDown} target={targetTemp} value={temperature[0]}/>{temperature && temperature[0]}°C</OneLineGrandChild>
           <OneLineGrandChild>Target</OneLineGrandChild>
           <OneLineGrandChild>{targetTemp}°C</OneLineGrandChild>
         </OneLineChild>
