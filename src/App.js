@@ -1,39 +1,31 @@
 import React from 'react';
-import './App.css';
 import styled from 'styled-components';
+
+import './App.css';
+import Video from './components/Video';
 
 function App() {
   return (
     <div className="App">
       <Camera>
-        Caméra here
+        <Video />
       </Camera>
+      <div>Fan level control</div>
+      <div>Cam Meat Tofu</div>
+      <div>90%</div>
+      <div>35 degrees C</div>
       <div>
-        Fan level control
+        <input placeholder="Humidity" />
       </div>
       <div>
-        Cam Meat Tofu
+        <input placeholder="Temperature" />
       </div>
-      <div>
-        90%
-      </div>
-      <div>
-      35 degrees C
-    </div>
-    <div>
-      <input placeholder="Humidity"/>  
-    </div>
-    <div>
-      <input placeholder="Temperature"/>
-    </div>
-
     </div>
   );
 }
 
 export default App;
 
-
 const Camera = styled.div`
   background-color: green;
-`
+`;
