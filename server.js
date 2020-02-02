@@ -5,14 +5,14 @@ const port = new SerialPort('COM6', { baudRate: 115200 });
 const parser = port.pipe(new Readline({ delimiter: '\r\n' }));
 
 firebase.initializeApp({
-  apiKey: "AIzaSyA4CuGhBhsOE2UkF2wpUQgqepxO9B6SWsQ",
-  authDomain: "mcteam-4e8fe.firebaseapp.com",
-  databaseURL: "https://mcteam-4e8fe.firebaseio.com",
-  projectId: "mcteam-4e8fe",
-  storageBucket: "mcteam-4e8fe.appspot.com",
-  messagingSenderId: "935234732757",
-  appId: "1:935234732757:web:44241121f0203b798d185c",
-  measurementId: "G-L4QNHNNDML"
+  apiKey: "AIzaSyBCh0J7qIHN-xi6YSRa4f1IpifKgV0LnN4",
+  authDomain: "mcteam2-61e71.firebaseapp.com",
+  databaseURL: "https://mcteam2-61e71.firebaseio.com",
+  projectId: "mcteam2-61e71",
+  storageBucket: "mcteam2-61e71.appspot.com",
+  messagingSenderId: "549984345149",
+  appId: "1:549984345149:web:18f25fc2d654d680431e54",
+  measurementId: "G-QW7P7PGZL5"
   });
   
 let tempData = [];
