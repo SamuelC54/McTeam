@@ -11,6 +11,8 @@ import './App.css';
 import ImageTemperature from './components/assets/temperature.png';
 import ImageHumidity from './components/assets/humidity.svg';
 import ImageLight from './components/assets/light.png';
+import ArrowDown from './components/assets/down.gif';
+
 import Video from './components/Video';
 import Chart from './components/Chart';
 
@@ -42,8 +44,8 @@ function App() {
 
  
 
-  function handTempDragStop(e){
-    console.log(e);
+  function handleTempChange(e){
+    console.log("temp changed");
   }
 
   const [openDialog, setOpenDialog] = useState(null);
@@ -90,10 +92,18 @@ function App() {
         </OneLineChild>
       </OneLine>
       <OneLine>
-        <OneLineChild >
+        <OneLineChild>
           <Picture src={ImageTemperature} />
         </OneLineChild>
-        <OneLineChild onClick={()=>setOpenDialog('temperature')}>{temperature && temperature[0]}°C</OneLineChild>
+        <OneLineChild>
+          <OneLineGrandChild>Actual</OneLineGrandChild>
+          <OneLineGrandChild onClick={()=>setOpenDialog('temperature')}>
+          <PictureInline src={ArrowDown} />{temperature && temperature[0]}°C</OneLineGrandChild>
+          <OneLineGrandChild>Target</OneLineGrandChild>
+          <OneLineGrandChild>99°C</OneLineGrandChild>
+        </OneLineChild>
+
+
         <OneLineChild >
           <Typography id="discrete-slider" gutterBottom>
           Temperature
@@ -105,8 +115,7 @@ function App() {
             step={1}
             min={-4}
             max={25}
-            onDragStop={()=>{console.log("stop")}}
-          
+            onChangeCommitted={handleTempChange}
           />  
         
           </OneLineChild>
@@ -132,6 +141,13 @@ const Picture = styled.img`
   width: 20px;
 `;
 
+const PictureInline = styled(Picture)`
+  display: inline-block;
+  transform: rotate(180deg);
+`;
+
+
+
 const OneLine = styled.div`
   background-color: grey;
   display: flex;
@@ -140,8 +156,23 @@ const OneLine = styled.div`
 `;
 
 const OneLineChild = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-right: 10px;
+  align-items: center;
+  justify-content: center;
 `;
+
+const OneLineGrandChild = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+display: inline-block;
+
+`;
+
+
 
 const LightBulb = styled.img`
   width: 50px;
