@@ -61,6 +61,13 @@ function App() {
   const closeDialog = () => {
     setOpenDialog(null);
   } 
+  const setFireStore = () => {
+    firestore
+    .collection("config")
+    .doc("sensors")
+    .update({tempSensor: 0});
+ 
+  }
   return (
     <>
     <Dialog onClose={closeDialog} open={openDialog && openDialog === 'temperature'} fullWidth>
@@ -112,6 +119,7 @@ function App() {
           </OneLineChild>
       </OneLine>
     </div>
+    <button onClick={setFireStore}></button>
     </>
   );
 }
