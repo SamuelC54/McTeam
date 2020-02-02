@@ -13,6 +13,7 @@ import ImageHumidity from './components/assets/humidity.svg';
 import ImageLight from './components/assets/light.png';
 import ArrowDown from './components/assets/down.gif';
 import ImageLoading from './components/assets/loading.gif';
+import ImageFan from './components/assets/fan.png';
 
 
 import Video from './components/Video';
@@ -37,10 +38,16 @@ function App() {
   const [humidity, setHumidity] = useState([]);
   const [temperature, setTemperature] = useState([]);
   const [light, setLight] = useState(false);
+  const [fanOn, setFanOn] = useState(false);
+
 
   function handleLightToggle(){
     setLight(!light);
-    console.log(light);
+  }
+
+  function handleFanToggle(){
+    setFanOn(!fanOn);
+    console.log(fanOn);
   }
 
  
@@ -127,6 +134,15 @@ function App() {
         onClick={handleLightToggle}
         src={ImageLight}
       />
+      <Fan 
+      className={fanOn && "rotate"}
+      fanOn={fanOn}
+      onClick={(handleFanToggle)}
+      src={ImageFan}
+      />
+
+
+      
       <OneLineContainer>
       <OneLine>
         <OneLineChild onClick={()=>setOpenDialog('humidity')}>
@@ -275,6 +291,18 @@ const LightBulb = styled.img`
   background-color: ${props => (props.light ? 'yellow' : '#a0aec0')};
   border-radius: 9999px;
 `;
+
+const Fan = styled.img`
+  width: 50px;
+  position: absolute;
+  index: 99999;
+  top: 70px;
+  left: 10px;
+  background-color: ${props => (props.fanOn ? 'yellow' : '#a0aec0')};
+  border-radius: 9999px;
+`;
+
+
 
 const BigParent = styled.div`
   height: 100vh;

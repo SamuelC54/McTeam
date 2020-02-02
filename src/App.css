@@ -42,3 +42,17 @@
 div{
   color: #4a5568 !important;
 }
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.rotate {
+  animation: rotation 1s infinite linear;
+  transition: animation 2s;
+}
