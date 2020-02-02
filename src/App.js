@@ -49,7 +49,7 @@ function App() {
     setFireStoreHumid(value);
   }
 
-  const [targetHumid, setTargetHumid] = useState(0);
+  const [targetHumid, setTargetHumid] = useState(undefined);
   useEffect(() => {
     const targetHumid = firestore
     .collection("config")
@@ -73,7 +73,7 @@ function App() {
     setFireStoreTemp(value);
   }
 
-  const [targetTemp, setTargetTemp] = useState(0);
+  const [targetTemp, setTargetTemp] = useState(undefined);
   useEffect(() => {
     const tempTarget = firestore
     .collection("config")
@@ -127,43 +127,47 @@ function App() {
       />
       <OneLineContainer>
       <OneLine>
-        <OneLineChild>
+        <OneLineChild onClick={()=>setOpenDialog('humidity')}>
           <Picture src={ImageHumidity} />
         </OneLineChild>
-        <OneLineChild>
+        <OneLineChild onClick={()=>setOpenDialog('humidity')}>
           <OneLineGrandChild>Actual</OneLineGrandChild>
-          <OneLineGrandChild onClick={()=>setOpenDialog('humidity')}>
+          <OneLineGrandChild >
           <PictureInline src={ArrowDown} target={targetHumid} value={humidity[0]} />{humidity && humidity[0]}%</OneLineGrandChild>
-          <OneLineGrandChild>Target</OneLineGrandChild>
+          <OneLineGrandChildTarget>Target</OneLineGrandChildTarget>
           <OneLineGrandChild>{targetHumid}%</OneLineGrandChild>
         </OneLineChild>
 
 
         <OneLineChild >
           <Typography id="discrete-slider" gutterBottom>
-          Humidity
+            Humidity
           </Typography>
-          <Slider
-            defaultValue={targetHumid}
+          {
+
+            targetHumid !== undefined && 
+            <Slider
+            defaultValue={()=>{console.log("test: ", targetHumid); return targetHumid;}}
             aria-labelledby="discrete-slider"
             valueLabelDisplay="auto"
             step={1}
             min={0}
             max={100}
             onChangeCommitted={handleHumidChange}
-          />  
+            />  
+          }
         
           </OneLineChild>
       </OneLine>
       <OneLine>
-        <OneLineChild>
+        <OneLineChild onClick={()=>setOpenDialog('temperature')}>
           <Picture src={ImageTemperature} />
         </OneLineChild>
-        <OneLineChild>
+        <OneLineChild onClick={()=>setOpenDialog('temperature')} >
           <OneLineGrandChild>Actual</OneLineGrandChild>
-          <OneLineGrandChild onClick={()=>setOpenDialog('temperature')}>
+          <OneLineGrandChild >
           <PictureInline src={ArrowDown} src={ArrowDown} target={targetTemp} value={temperature[0]}/>{temperature && temperature[0]}°C</OneLineGrandChild>
-          <OneLineGrandChild>Target</OneLineGrandChild>
+          <OneLineGrandChildTarget>Target</OneLineGrandChildTarget>
           <OneLineGrandChild>{targetTemp}°C</OneLineGrandChild>
         </OneLineChild>
 
@@ -172,7 +176,11 @@ function App() {
           <Typography id="discrete-slider" gutterBottom>
           Temperature
           </Typography>
-          <Slider
+
+          {
+            targetTemp !== undefined && 
+
+            <Slider
             defaultValue={targetTemp}
             aria-labelledby="discrete-slider"
             valueLabelDisplay="auto"
@@ -180,7 +188,8 @@ function App() {
             min={-4}
             max={25}
             onChangeCommitted={handleTempChange}
-          />  
+            />  
+          }
         
           </OneLineChild>
       </OneLine>
@@ -225,12 +234,12 @@ const OneLine = styled.div`
   justify-content: space-around;
   height: 100%;
   border: 1px solid #e2e8f0;
+  padding: 10px;
 `;
 
 const OneLineChild = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 10px;
   align-items: center;
   justify-content: center;
   flex: 1;
@@ -245,6 +254,13 @@ justify-content: center;
 display: inline-block;
 
 `;
+
+const OneLineGrandChildTarget = styled(OneLineGrandChild)`
+margin-top: 25px;
+width: 100px;
+
+`;
+
 
 
 
