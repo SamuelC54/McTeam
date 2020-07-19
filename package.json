@@ -11,7 +11,7 @@
     "fetch": "^1.1.0",
     "firebase": "^7.7.0",
     "gradient": "^0.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mapbox-gl": "^1.6.1",
     "material-ui": "^0.20.2",
     "react": "^16.12.0",
